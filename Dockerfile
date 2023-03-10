@@ -1,13 +1,16 @@
-FROM python:3.8-slim as release
+# FROM python:3.8-slim as release
 
-WORKDIR /app
+# WORKDIR /app
 
-EXPOSE 80
+# EXPOSE 80
 
-COPY requirements.txt .
+# COPY requirements.txt .
 
-RUN pip install -r requirements.txt
+# RUN pip install -r requirements.txt
 
-COPY . .
+# COPY . .
 
-ENTRYPOINT [ "python", "app.py" ]
+# ENTRYPOINT [ "python", "app.py" ]
+
+FROM nginx:latest
+COPY ./index.html /usr/share/nginx/html/index.html
