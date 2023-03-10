@@ -41,7 +41,7 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition service \
+          aws ecs describe-task-definition --task-definition ecs-architecture-task-dev:3 \
           --query taskDefinition > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
@@ -49,7 +49,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: application
+          container-name: ecs-architecture-container-dev
           image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
@@ -57,6 +57,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: aws-ecs-typescript-service
-          cluster: aws-ecs-typescript-api
+          service: ecs-architecture-service-dev
+          cluster: ecs-architecture-cluster-dev
           wait-for-service-stability: true
