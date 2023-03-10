@@ -58,4 +58,4 @@ jobs:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: ecs-architecture-service-dev
           cluster: ecs-architecture-cluster-dev
-          wait-for-service-stability: false
+          wait-for-service-stability: true
