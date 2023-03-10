@@ -37,7 +37,7 @@ jobs:
           # be deployed to ECS.
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
 #       - name: Download task definition
 #         run: aws ecs describe-task-definition --task-definition aws-ecs-typescript-task --query taskDefinition > task-definition.json
@@ -48,7 +48,7 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: aws-ecs-typescript-container
-          image: ${{ steps.push-image.outputs.image }}
+          image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
         id: deploy-task-def
