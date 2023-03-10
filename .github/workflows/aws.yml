@@ -41,7 +41,7 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition ecs-architecture-task-dev:11 --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition ecs-architecture-task-dev --query taskDefinition > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
@@ -58,4 +58,4 @@ jobs:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: ecs-architecture-service-dev
           cluster: ecs-architecture-cluster-dev
-          wait-for-service-stability: true
+          wait-for-service-stability: false
