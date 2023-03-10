@@ -28,8 +28,8 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: aws-ecs-typescript-api
-          IMAGE_TAG: aws-ecs-typescript-api-${{ github.sha }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
+          IMAGE_TAG: ${{ steps.vars.outputs.tag }}
 
         run: |
           # Build a docker container and
@@ -43,7 +43,7 @@ jobs:
         run: aws ecs describe-task-definition --task-definition aws-ecs-typescript-task --query taskDefinition > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
-        id: update-task-def
+        id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
@@ -54,6 +54,7 @@ jobs:
         id: deploy-task-def
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ steps.update-task-def.outputs.task-definition }}
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: aws-ecs-typescript-service
           cluster: aws-ecs-typescript-api
+          wait-for-service-stability: true
