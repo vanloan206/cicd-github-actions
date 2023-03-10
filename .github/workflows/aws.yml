@@ -41,7 +41,7 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition ecs-architecture-task-dev:3 \
+          aws ecs describe-task-definition --task-definition ecs-architecture-task-dev:6 \
           --query taskDefinition > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
