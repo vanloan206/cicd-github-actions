@@ -1,12 +1,6 @@
 name: Deploy to Amazon ECS
 
 on:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-#     branches:
-#       - main
   workflow_dispatch:
     inputs:
       environment:
@@ -18,8 +12,6 @@ jobs:
   deploy:
     name: Deploy to ECS
     runs-on: ubuntu-latest
-#     env:
-#       ENVIRONMENT: ${{ inputs.environment }}
     environment: ${{ inputs.environment }}
     steps:
       - name: Checkout
