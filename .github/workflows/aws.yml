@@ -2,11 +2,11 @@ name: Deploy to Amazon ECS
 
 on:
   workflow_dispatch:
-#     inputs:
-#       environment:
-#         description: 'Environment to run tests against'
-#         type: environment
-#         required: true
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: true
 
 jobs:
   deploy:
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 #     env:
 #       ENVIRONMENT: ${{ inputs.environment }}
-    environment: ${{ inputs.environment }}
+#     environment: ${{ inputs.environment }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
