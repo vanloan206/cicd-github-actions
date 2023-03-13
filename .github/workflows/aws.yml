@@ -12,8 +12,8 @@ jobs:
   deploy:
     name: Deploy to ECS
     runs-on: ubuntu-latest
-#     env:
-#       ENVIRONMENT: ${{ inputs.environment }}
+    env:
+      ENVIRONMENT: ${{ inputs.environment }}
 #     environment: ${{ inputs.environment }}
     steps:
       - name: Checkout
