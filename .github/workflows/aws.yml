@@ -1,14 +1,18 @@
+name: Deploy to Amazon ECS
+
 on:
   push:
     branches:
       - main
-
-name: Deploy to Amazon ECS
+  pull_request:
+    branches:
+      - main
 
 jobs:
   deploy:
     name: Deploy to ECS
     runs-on: ubuntu-latest
+    environment: develop
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -35,7 +39,6 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
-
       - name: Download task definition
         run: |
           aws ecs describe-task-definition --task-definition ecs-architecture-task-dev --query taskDefinition \
@@ -48,7 +51,6 @@ jobs:
             .registeredAt,
             .registeredBy
           )'> task-definition.json
-
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -61,6 +63,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ecs-architecture-service-dev
-          cluster: ecs-architecture-cluster-dev
+          service: ${{ secrets.ECS_SERVICE }}
+          cluster: ${{ secrets.ECS_CLUSTER }}
           wait-for-service-stability: true
