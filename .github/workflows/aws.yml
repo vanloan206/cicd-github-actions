@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: ${{ inputs.environment }}
-#     environment: "$ENVIRONMENT"
+    environment: "$ENVIRONMENT"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
